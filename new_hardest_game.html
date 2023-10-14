@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Game</title>
+    <style>
+        /* Style the container div to hold the background image */
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        #game-container {
+            width: 100%;
+            height: 80vh;
+            background-image: url('perfect_road.jpg'); /* Replace 'road.png' with your road image */
+            background-repeat: repeat-y;
+            background-position: center;
+            background-size: cover;
+            overflow: hidden;
+            position: relative;
+            /* margin-top: 10%; */
+        }
+
+        /* Style the car image */
+        #car {
+            position: absolute;
+            height: 20%;
+            width: 20%;
+            bottom: 2%; /* Adjust as needed to position the car vertically */
+            left: 50%; /* Start the car in the middle of the screen */
+            transform: translateX(-50%); /* Center the car horizontally */
+        }
+
+        #stone1 {
+            position: absolute;
+            height: 20%;
+            width: 20%;
+            bottom: 1%; /* Adjust as needed to position the car vertically */
+            left: 3000px; /* Start the car in the middle of the screen */
+            transform: translateX(-50%); /* Center the car horizontally */
+        }
+
+        #stone11 {
+            position: absolute;
+            height: 20%;
+            width: 20%;
+            bottom: 1%; /* Adjust as needed to position the car vertically */
+            left: 3000px; /* Start the car in the middle of the screen */
+            transform: translateX(-50%); /* Center the car horizontally */
+        }
+
+        #stone2 {
+            position: absolute;
+            height: 20%;
+            width: 20%;
+            bottom: 40%; /* Adjust as needed to position the car vertically */
+            left: 3000px; /* Start the car in the middle of the screen */
+            transform: translateX(-50%); /* Center the car horizontally */
+        }
+
+        #stone21 {
+            position: absolute;
+            height: 20%;
+            width: 20%;
+            bottom: 40%; /* Adjust as needed to position the car vertically */
+            left: 3000px; /* Start the car in the middle of the screen */
+            transform: translateX(-50%); /* Center the car horizontally */
+        }
+
+        #stone3 {
+            position: absolute;
+            height: 20%;
+            width: 20%;
+            bottom: 76%; /* Adjust as needed to position the car vertically */
+            left: 3000px; /* Start the car in the middle of the screen */
+            transform: translateX(-50%); /* Center the car horizontally */
+        }
+
+        #stone31 {
+            position: absolute;
+            height: 20%;
+            width: 20%;
+            bottom: 76%; /* Adjust as needed to position the car vertically */
+            left: 3000px; /* Start the car in the middle of the screen */
+            transform: translateX(-50%); /* Center the car horizontally */
+        }
+        
+            /* Media queries*/
+        /*
+        @media only screen and (max-width: 6000px) {
+            #game-container {
+            width: 100%;
+            height:100% ;
+            margin-top: 10%;
+        }
+        #car {
+            height: 30%;
+            width: 30%;
+        }
+
+        #stone1,
+        #stone11
+         {
+            height: 10%;
+            width: 10%;
+            bottom: 3%;
+        }
+        #stone2,
+        #stone21
+        {
+            height: 10%;
+            width: 10%;
+            bottom: 35%;
+        }
+        #stone3,
+        #stone31
+        {
+            height: 10%;
+            width: 10%;
+            bottom: 70%;
+        }
+        }
+
+        @media only screen and (max-width: 480px) {
+        #game-container {
+            width: 100%;
+            /* height: 100%; */
+            /* margin-top: 10%; */
+        /*}
+        #car {
+            height: 25%;
+            width: 25%;
+        }
+
+        #stone1,
+        #stone11
+         {
+            height: 10%;
+            width: 10%;
+            bottom: 3%;
+        }
+        #stone2,
+        #stone21
+        {
+            height: 10%;
+            width: 10%;
+            bottom: 35%;
+        }
+        #stone3,
+        #stone31
+        {
+            height: 10%;
+            width: 10%;
+            bottom: 60%;
+        }
+        }
+         */
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <img id="car" src="car.png" alt="Car"> <!-- Replace 'car.png' with your car image -->
+        <img id="stone1" src="stone.png" alt="Stone"> <!-- Replace 'car.png' with your car image -->
+        <img id="stone11" src="stone.png" alt="Stone11">
+        <img id="stone2" src="stone.png" alt="Stone2"> <!-- Replace 'car.png' with your car image -->
+        <img id="stone21" src="stone.png" alt="Stone21">
+        <img id="stone3" src="stone.png" alt="Stone3">
+        <img id="stone31" src="stone.png" alt="Stone31"> 
+    </div>
+    <script>
+        
+        function getRandomValue(min, max) {
+           return Math.random() * (max - min) + min;
+        }
+        // JavaScript to move the car
+        const car = document.getElementById('car');
+        let carPosition = 2; // Initial car position 
+        let time_delay=4;
+    
+        
+        const stone1=document.getElementById('stone1');
+        const stone11=document.getElementById('stone11');
+        const stone2=document.getElementById('stone2');
+        const stone21=document.getElementById('stone21');
+        const stone3=document.getElementById('stone3');
+        const stone31=document.getElementById('stone31');
+        
+        let game=true;
+
+        let stone1Position=-40;
+        let stone2Position=-400;
+        let stone3Position=-40;
+        let stone11Position=-400;
+        let stone21Position=-400;
+        let stone31Position=-40;
+
+
+        
+        let car_left_pos=50;
+        let car_width=8;
+        let stone_width=6;
+        let space_btw=11;
+
+        let speed_stone=0.1;
+        function moveStone1(){
+            if (stone1Position<=0)
+            {   
+                
+                stone1Position=getRandomValue(100,200);
+                console.log('Before');
+                console.log('Stone1Position ',stone1Position);
+                console.log('Stone2Position ',stone2Position);
+                while (   (Math.abs( (stone1Position%100)- (stone2Position%100) ) <= (car_width + space_btw) )
+                      ||  (Math.abs( (stone1Position%100)- (stone21Position%100) ) <= (car_width + space_btw) )
+                ) 
+                {
+                    console.log('I\'m in 1st loop');
+                    stone1Position+=car_width+space_btw;
+                }
+                console.log('After');
+                console.log('Stone1Position ',stone1Position);
+                console.log('Stone2Position ',stone2Position);
+                //console.log(stone1Position);
+                if (time_delay>1.3)
+                {time_delay-=time_delay*0.05;}
+            }
+
+            if (stone2Position<=0)
+            {  
+                stone2Position=getRandomValue(100,200);
+                console.log('Before');
+                console.log('Stone1Position ',stone1Position);  
+                console.log('Stone2Position ',stone2Position);
+                console.log('Stone3Position ',stone3Position); 
+                while (   (Math.abs( (stone2Position%100)- (stone1Position%100) ) <= (car_width +space_btw)  ) 
+                       || ( Math.abs( (stone2Position%100)- (stone3Position%100) ) <= (car_width +space_btw) ) 
+                       || (Math.abs( (stone2Position%100)- (stone11Position%100) ) <= (car_width +space_btw) )
+                       || (Math.abs( (stone2Position%100)- (stone31Position%100) ) <= (car_width +space_btw) )
+                ) 
+                {
+                    console.log('I\'m in 2nd loop');
+                    stone2Position+=car_width+space_btw;
+                }
+                console.log('After');
+                console.log('Stone1Position ',stone1Position);
+                console.log('Stone2Position ',stone2Position);
+                console.log('Stone3Position ',stone3Position); 
+            }
+
+            if (stone3Position<=0)
+            {   
+                stone3Position=getRandomValue(100,200);
+                while (   (Math.abs( (stone3Position%100)- (stone2Position%100) ) <= (car_width + space_btw) )
+                       || (Math.abs( (stone3Position%100)- (stone21Position%100) ) <= (car_width + space_btw) )   
+                ) 
+                {
+                    console.log('I\'m in 3rd loop');
+                    stone3Position+=car_width+space_btw;
+                }
+
+            }
+            
+            if (stone11Position<=0)
+            {   
+                stone11Position=getRandomValue(100,200); 
+                while (   (Math.abs( (stone11Position%100)- (stone2Position%100) ) <= (car_width + space_btw) )
+                       || (Math.abs( (stone11Position%100)- (stone21Position%100) ) <= (car_width + space_btw) )
+                ) 
+                {
+                    console.log('I\'m in 11st loop');
+                    stone11Position+=car_width+space_btw;
+                }
+            }
+
+            if (stone21Position<=0)
+            {   
+                stone21Position=getRandomValue(100,200);
+                while (   (Math.abs( (stone21Position%100)- (stone1Position%100) ) <= (car_width +space_btw)  ) 
+                       || ( Math.abs( (stone21Position%100)- (stone3Position%100) ) <= (car_width +space_btw) ) 
+                       || (Math.abs( (stone21Position%100)- (stone11Position%100) ) <= (car_width +space_btw) )
+                       || (Math.abs( (stone21Position%100)- (stone31Position%100) ) <= (car_width +space_btw) )
+                ) 
+                {
+                    console.log('I\'m in 2nd loop');
+                    stone21Position+=car_width+space_btw;
+                }
+            }
+
+            if (stone31Position<=0)
+            {   
+                stone31Position=getRandomValue(100,200);
+                while (   (Math.abs( (stone31Position%100)- (stone2Position%100) ) <= (car_width + space_btw) )
+                       || (Math.abs( (stone31Position%100)- (stone21Position%100) ) <= (car_width + space_btw) )     
+                ) 
+                {
+                    console.log('I\'m in 31st loop');
+                    stone31Position+=car_width+space_btw;
+                }
+            }
+            
+            
+            stone1Position-=speed_stone;
+            stone2Position-=speed_stone;
+            stone3Position-=speed_stone;
+            stone11Position-=speed_stone;
+            stone21Position-=speed_stone;
+            stone31Position-=speed_stone;
+
+
+            car.style.left=car_left_pos+'%';
+            car.style.width=car_width+'%';
+            stone1.style.width=stone_width+'%';
+            stone2.style.width=stone_width+'%';
+            stone3.style.width=stone_width+'%';
+            stone11.style.width=stone_width+'%';
+            stone21.style.width=stone_width+'%';
+            stone31.style.width=stone_width+'%';
+            
+            stone1.style.left=stone1Position+'%';
+            stone2.style.left=stone2Position+'%';
+            stone3.style.left=stone3Position+'%';
+            stone11.style.left=stone11Position+'%';
+            stone21.style.left=stone21Position+'%';
+            stone31.style.left=stone31Position+'%';
+            
+            
+            if (!(         (   ( ((stone1Position+stone_width<car_left_pos) || (stone1Position>car_left_pos+car_width-2.5)) && carPosition==5)
+                           && ( ((stone11Position+stone_width<car_left_pos) || (stone11Position>car_left_pos+car_width-2.5)) && carPosition==5)  )
+                    ||   ( ( ((stone2Position+stone_width<car_left_pos) || (stone2Position>car_left_pos+car_width-2.5)) && carPosition==35)
+                           && ( ((stone21Position+stone_width<car_left_pos) || (stone21Position>car_left_pos+car_width-2.5)) && carPosition==35)      )
+                    ||   ( ( ((stone3Position+stone_width<car_left_pos) || (stone3Position>car_left_pos+car_width-2.5)) && carPosition==65)
+                           &&   ( ((stone31Position+stone_width<car_left_pos) || (stone31Position>car_left_pos+car_width-2.5)) && carPosition==65)          )
+            ))
+            {
+                // game=false;
+            }
+        }
+        // Function to move the car left
+        function moveCarDown() {
+            if (game)
+            {
+                if (carPosition > 10) { // Adjust the limit as needed
+                    carPosition -= 37;
+                    car.style.bottom = carPosition + '%';
+                }
+            }
+        }
+
+        // Function to move the car right
+        function moveCarUp() {
+            if (game)
+            {
+                if (carPosition < 60) { // Adjust the limit as needed
+                    carPosition += 37;
+                    car.style.bottom = carPosition + '%';
+                }
+            }
+        }
+
+        // Event listeners for arrow key presses
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'ArrowUp') {
+                // if(event.keyCode===38){
+                moveCarUp();
+            } else if (event.key === 'ArrowDown') {
+                moveCarDown();
+            }
+        });
+        
+        function delayAndMoveStone1() {
+            if (game)
+            {
+                setTimeout(() => {
+                moveStone1();
+                delayAndMoveStone1(); // To create a continuous loop
+                }, time_delay); 
+            }
+            else{
+                console.log("CarPos",car);
+                console.log("Stone",stone1);
+            }
+        }       
+
+        function toggleZoomScreen() {
+       document.getElementById("game-container").style.zoom = "75%";
+    } 
+
+            // Start the loop
+            //toggleZoomScreen();
+            delayAndMoveStone1();
+
+        
+    </script>
+</body>
+</html>
