@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, user-scalable=no">
     <title>Car Game</title>
     <style>
         /* Style the container div to hold the background image */
@@ -196,57 +196,45 @@
         let stone21Position=-400;
         let stone31Position=-40;
 
-
-        
         let car_left_pos=50;
         let car_width=8;
         let stone_width=6;
+        let stone_height=20;
         let space_btw=11;
+        let call_count=0;
+        let speed_stone=0.125;
+        let car_up=0;
+        let car_down=0;
+        let extra_height=12.5;
+        let extra_width=3;
 
-        let speed_stone=0.1;
         function moveStone1(){
             if (stone1Position<=0)
             {   
                 
                 stone1Position=getRandomValue(100,200);
-                console.log('Before');
-                console.log('Stone1Position ',stone1Position);
-                console.log('Stone2Position ',stone2Position);
                 while (   (Math.abs( (stone1Position%100)- (stone2Position%100) ) <= (car_width + space_btw) )
                       ||  (Math.abs( (stone1Position%100)- (stone21Position%100) ) <= (car_width + space_btw) )
                 ) 
                 {
-                    console.log('I\'m in 1st loop');
                     stone1Position+=car_width+space_btw;
                 }
-                console.log('After');
-                console.log('Stone1Position ',stone1Position);
-                console.log('Stone2Position ',stone2Position);
-                //console.log(stone1Position);
-                if (time_delay>1.3)
-                {time_delay-=time_delay*0.05;}
+                // if (time_delay>1.3)
+                // speed_stone+=speed_stone*0.025;
+                // time_delay-=time_delay*0.025;
             }
 
             if (stone2Position<=0)
             {  
                 stone2Position=getRandomValue(100,200);
-                console.log('Before');
-                console.log('Stone1Position ',stone1Position);  
-                console.log('Stone2Position ',stone2Position);
-                console.log('Stone3Position ',stone3Position); 
                 while (   (Math.abs( (stone2Position%100)- (stone1Position%100) ) <= (car_width +space_btw)  ) 
                        || ( Math.abs( (stone2Position%100)- (stone3Position%100) ) <= (car_width +space_btw) ) 
                        || (Math.abs( (stone2Position%100)- (stone11Position%100) ) <= (car_width +space_btw) )
                        || (Math.abs( (stone2Position%100)- (stone31Position%100) ) <= (car_width +space_btw) )
                 ) 
                 {
-                    console.log('I\'m in 2nd loop');
                     stone2Position+=car_width+space_btw;
                 }
-                console.log('After');
-                console.log('Stone1Position ',stone1Position);
-                console.log('Stone2Position ',stone2Position);
-                console.log('Stone3Position ',stone3Position); 
             }
 
             if (stone3Position<=0)
@@ -256,7 +244,6 @@
                        || (Math.abs( (stone3Position%100)- (stone21Position%100) ) <= (car_width + space_btw) )   
                 ) 
                 {
-                    console.log('I\'m in 3rd loop');
                     stone3Position+=car_width+space_btw;
                 }
 
@@ -269,7 +256,6 @@
                        || (Math.abs( (stone11Position%100)- (stone21Position%100) ) <= (car_width + space_btw) )
                 ) 
                 {
-                    console.log('I\'m in 11st loop');
                     stone11Position+=car_width+space_btw;
                 }
             }
@@ -283,7 +269,6 @@
                        || (Math.abs( (stone21Position%100)- (stone31Position%100) ) <= (car_width +space_btw) )
                 ) 
                 {
-                    console.log('I\'m in 2nd loop');
                     stone21Position+=car_width+space_btw;
                 }
             }
@@ -295,7 +280,6 @@
                        || (Math.abs( (stone31Position%100)- (stone21Position%100) ) <= (car_width + space_btw) )     
                 ) 
                 {
-                    console.log('I\'m in 31st loop');
                     stone31Position+=car_width+space_btw;
                 }
             }
@@ -317,6 +301,13 @@
             stone11.style.width=stone_width+'%';
             stone21.style.width=stone_width+'%';
             stone31.style.width=stone_width+'%';
+
+            stone1.style.height=stone_height+'%';
+            stone2.style.height=stone_height+'%';
+            stone3.style.height=stone_height+'%';
+            stone11.style.height=stone_height+'%';
+            stone21.style.height=stone_height+'%';
+            stone31.style.height=stone_height+'%';
             
             stone1.style.left=stone1Position+'%';
             stone2.style.left=stone2Position+'%';
@@ -326,60 +317,94 @@
             stone31.style.left=stone31Position+'%';
             
             
-            if (!(         (   ( ((stone1Position+stone_width<car_left_pos) || (stone1Position>car_left_pos+car_width-2.5)) && carPosition==5)
-                           && ( ((stone11Position+stone_width<car_left_pos) || (stone11Position>car_left_pos+car_width-2.5)) && carPosition==5)  )
-                    ||   ( ( ((stone2Position+stone_width<car_left_pos) || (stone2Position>car_left_pos+car_width-2.5)) && carPosition==35)
-                           && ( ((stone21Position+stone_width<car_left_pos) || (stone21Position>car_left_pos+car_width-2.5)) && carPosition==35)      )
-                    ||   ( ( ((stone3Position+stone_width<car_left_pos) || (stone3Position>car_left_pos+car_width-2.5)) && carPosition==65)
-                           &&   ( ((stone31Position+stone_width<car_left_pos) || (stone31Position>car_left_pos+car_width-2.5)) && carPosition==65)          )
-            ))
+            if  (
+                    (! (         (   ( ((stone1Position+stone_width-1<car_left_pos) || (stone1Position>car_left_pos+car_width-extra_width)) && ((carPosition>=2 && carPosition<=2+stone_height-extra_height))  )
+                            && ( ((stone11Position+stone_width-1<car_left_pos) || (stone11Position>car_left_pos+car_width-extra_width)) && (carPosition>=2 && carPosition<=2+stone_height-extra_height))  )
+                        ||     ( ( ((stone2Position+stone_width-1<car_left_pos) || (stone2Position>car_left_pos+car_width-extra_width)) && (carPosition>=39 && carPosition<=39+stone_height-extra_height))
+                            && ( ((stone21Position+stone_width-1<car_left_pos) || (stone21Position>car_left_pos+car_width-extra_width)) && (carPosition>=39 && carPosition<=39+stone_height-extra_height))    )
+                        ||     ( ( ((stone3Position+stone_width-1<car_left_pos) || (stone3Position>car_left_pos+car_width-extra_width)) && (carPosition>=76 && carPosition<=76+stone_height-extra_height ))
+                            &&   ( ((stone31Position+stone_width-1<car_left_pos) || (stone31Position>car_left_pos+car_width-extra_width)) && (carPosition>=76) && carPosition<=76+stone_height-extra_height)  )
+                        )
+                        
+                    )     
+            )    
             {
-                // game=false;
+                if  ( !
+                        ((carPosition>2+stone_height-extra_height && carPosition<39) || (carPosition>39+stone_height-extra_height && carPosition<76)) 
+                    )
+                game=false;
             }
+            
         }
-        // Function to move the car left
+
+        // Function to move the car Down
         function moveCarDown() {
             if (game)
             {
-                if (carPosition > 10) { // Adjust the limit as needed
-                    carPosition -= 37;
-                    car.style.bottom = carPosition + '%';
-                }
+                setTimeout(() => {    
+                    if (car_down<37){    
+                            carPosition--;
+                            car.style.bottom = carPosition + '%';
+                            car_down++;
+                            moveCarDown();
+                    }
+                    else{
+                        car_down=0;
+                    }
+                }, 1.5);
             }
         }
+        // function moveCarDown() {
+        //     if (game)
+        //     {
+        //         if (carPosition > 10) { // Adjust the limit as needed
+        //             carPosition -= 37;
+        //             car.style.bottom = carPosition + '%';
+        //         }
+        //     }
+        // }
 
-        // Function to move the car right
+        // Function to move the car Up
         function moveCarUp() {
             if (game)
             {
-                if (carPosition < 60) { // Adjust the limit as needed
-                    carPosition += 37;
-                    car.style.bottom = carPosition + '%';
-                }
+                setTimeout(() => {    
+                    if (car_up<37){    
+                            carPosition++;
+                            car.style.bottom = carPosition + '%';
+                            car_up++;
+                            moveCarUp();
+                    }
+                    else{
+                        car_up=0;
+                    }
+                }, 1.5);
             }
         }
 
         // Event listeners for arrow key presses
         document.addEventListener('keydown', (event) => {
-            if (event.key === 'ArrowUp') {
+            if (event.key === 'ArrowUp' && car_up==0) {
                 // if(event.keyCode===38){
-                moveCarUp();
-            } else if (event.key === 'ArrowDown') {
-                moveCarDown();
+                if (carPosition<60){
+                    moveCarUp();
+                }    
+            } else if (event.key === 'ArrowDown' && car_down==0) {
+                if (carPosition>10){
+                    moveCarDown();
+                }
             }
         });
-        
+        // call_count=0;
         function delayAndMoveStone1() {
             if (game)
             {
+                call_count++;
+                // console.log('Frequency:', call_count, 'calls per second');
                 setTimeout(() => {
                 moveStone1();
                 delayAndMoveStone1(); // To create a continuous loop
                 }, time_delay); 
-            }
-            else{
-                console.log("CarPos",car);
-                console.log("Stone",stone1);
             }
         }       
 
@@ -389,8 +414,21 @@
 
             // Start the loop
             //toggleZoomScreen();
+        function printFreq(){
+            setTimeout(() => {
+                console.log('Frequency in 1 second:', call_count, 'calls per second');
+                speed_stone+=speed_stone*0.01;
+                time_delay-=time_delay*0.01;
+                call_count = 0; // Reset the counter for the next second
+                if (time_delay>0.8) {
+                    printFreq(); 
+                }
+            }, 1000); // Wait for 1 second
+        }
             delayAndMoveStone1();
-
+            printFreq();
+                        // At the end of 1 second, you will have the frequency in calls per second.
+            
         
     </script>
 </body>
