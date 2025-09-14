@@ -1,7 +1,6 @@
-# 🚗 Retro Highway Racer
+# 🚗 Beat The Stone
 
 ![JavaScript](https://img.shields.io/badge/Language-JavaScript-F7DF1E?style=for-the-badge&logo=javascript)
-![License](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)
 
 A simple, addictive, and endless retro-style car game built with pure Vanilla JavaScript as a personal learning project. Dodge the obstacles and see how high you can score!
 
@@ -69,7 +68,7 @@ This game wasn't built in a day. It was an iterative process of adding one featu
 
 ## 🛠️ A Note on Tools & Collaboration
 
-This project was a solo journey to learn JavaScript, and I wrote the core gameplay logic, structure, and functionality from scratch. I am not the original author of the CSS styling.
+This project was a solo journey to learn JavaScript, and I wrote the core gameplay logic, structure, and functionality from scratch, while the CSS was done with help of my friend.
 
 As the project's complexity grew, I leveraged **Google's Gemini** as an AI pair programmer to help with specific, advanced tasks:
 -   Refactoring the code into an Object-Oriented structure.
@@ -80,6 +79,3 @@ This collaborative approach between human and AI allowed me to focus on the core
 
 ---
 
-## License
-
-This project is licensed under the MIT License. See the `LICENSE` file for details.
