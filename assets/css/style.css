@@ -1,0 +1,220 @@
+/* The universal selector (*), which targets every single element on the page. */
+* {
+    /* A common reset to remove default browser margins. */
+    margin: 0;
+    /* A common reset to remove default browser padding. */
+    padding: 0;
+    /* This changes how the width and height of elements are calculated. 'border-box' includes padding and border in the element's total width and height, which makes layouts much more predictable. */
+    box-sizing: border-box;
+}
+
+/* Styles for the main <body> tag of the document. */
+body {
+    /* Sets the background color of the entire page. */
+    background-color: white;
+    /* Sets the default text color for the page. */
+    color: black;
+}
+
+/* Styles for the full-screen message that appears in portrait mode. */
+#orientation-lock {
+    /* The message is hidden by default. */
+    display: none;
+    /* Positions the element relative to the browser window, so it stays fixed even if the page scrolls. */
+    position: fixed;
+    /* Sets the element to the top edge of the viewport. */
+    top: 0;
+    /* Sets the element to the left edge of the viewport. */
+    left: 0;
+    /* Makes the element span the full width of the viewport. */
+    width: 100%;
+    /* Makes the element span the full height of the viewport. */
+    height: 100%;
+    /* Sets the background to black. */
+    background-color: #000;
+    /* Sets the text color to white. */
+    color: #fff;
+    /* A high z-index ensures this element appears on top of all other content. */
+    z-index: 100;
+    /* These three properties are used with 'display: flex' to perfectly center the text content. */
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    /* Sets the font size for the message. */
+    font-size: 1.5rem;
+    /* Sets a standard, readable font. */
+    font-family: sans-serif;
+}
+
+/* A media query: these styles will ONLY apply if the device's height is greater than its width (portrait mode). */
+@media (orientation: portrait) {
+    /* Hides all the main game elements when in portrait mode. */
+    #game-container, .btn, .rbtn, #game-instructions {
+        display: none;
+    }
+    /* Shows the orientation lock message. 'flex' is used to enable the centering properties. */
+    #orientation-lock {
+        display: flex;
+    }
+}
+
+/* Styles for the main "Start" button. */
+.btn {
+    /* Initially visible. */
+    display: block;
+    /* Allows for precise positioning relative to the nearest 'positioned' ancestor (in this case, the body). */
+    position: absolute;
+    /* Moves the button's left edge to the horizontal center. */
+    left: 50%;
+    /* Moves the button's top edge down 40% of the viewport height. */
+    top: 40%;
+    /* This is a trick to perfectly center the button. It shifts the element left by 50% of its OWN width. */
+    transform: translateX(-50%);
+    /* Sets the button's background color. */
+    background-color: #AED2FF;
+    /* Removes the default button border. */
+    border: none;
+    /* Gives the button rounded corners. */
+    border-radius: 0.8rem;
+    /* Puts the button on a higher layer than the game container. */
+    z-index: 2;
+    /* Adds padding inside the button. */
+    padding: 0.5rem 1rem 0.5rem 1rem;
+    /* Changes the mouse cursor to a pointer on hover. */
+    cursor: pointer;
+    /* Sets the font size. */
+    font-size: 1.5rem;
+    /* Sets the font color. */
+    color: #27005D;
+}
+
+/* Styles that apply ONLY when the mouse is hovering over the start button. */
+.btn:hover {
+    /* Adds a drop shadow to give a sense of depth. */
+    box-shadow: 0.4rem 0.4rem 0.6rem 0.2rem rgba(0, 0, 0, 0.75);
+}
+
+/* Styles for the instructions box. */
+#game-instructions {
+    /* Positions the box absolutely on the screen. */
+    position: absolute;
+    /* Centers the box horizontally. */
+    left: 50%;
+    top: 55%;
+    transform: translateX(-50%);
+    /* Ensures it appears on top of the game container. */
+    z-index: 2;
+    /* Sets the text color. */
+    color: white;
+    /* A semi-transparent black background. */
+    background-color: rgba(0, 0, 0, 0.6);
+    /* Adds padding inside the box. */
+    padding: 1rem;
+    /* Gives the box rounded corners. */
+    border-radius: 10px;
+    /* Centers the text inside. */
+    text-align: center;
+    /* Sets the font. */
+    font-family: sans-serif;
+    /* Sets the font size. */
+    font-size: 1.1rem;
+    /* Gives the box a fixed width to prevent it from becoming too wide or narrow. */
+    width: 300px;
+}
+
+/* Styles for the paragraph (<p>) tags specifically inside the instructions box. */
+#game-instructions p {
+    /* Adds a small margin on the top and bottom of each paragraph. */
+    margin: 5px 0;
+}
+
+/* Styles for the "Restart" button. */
+.rbtn {
+    /* The restart button is hidden by default. */
+    display: none;
+    /* The rest of the styles are identical to the "Start" button for a consistent look. */
+    position: absolute;
+    left: 50%;
+    top: 40%;
+    transform: translateX(-50%);
+    background-color: #AED2FF;
+    border: none;
+    border-radius: 0.8rem;
+    z-index: 2;
+    padding: 0.5rem 1rem 0.5rem 1rem;
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: #27005D;
+}
+
+/* Adds a hover effect to the restart button. */
+.rbtn:hover {
+    box-shadow: 0.4rem 0.4rem 0.6rem 0.2rem rgba(0, 0, 0, 0.75);
+}
+
+/* Styles for the bar at the top containing the scores. */
+#topBar {
+    /* Uses Flexbox for easy horizontal alignment of its children (the score texts). */
+    display: flex;
+    /* Vertically centers the items in the top bar. */
+    align-items: center;
+    /* Arranges items in a row. */
+    flex-direction: row;
+    /* Pushes the score and high score to opposite ends of the container. */
+    justify-content: space-between;
+    /* Adds some horizontal padding. */
+    padding: 0 1rem;
+}
+
+/* Styles applied to both the score and high score text elements. */
+#score, #highScore {
+    /* Makes the font size larger. */
+    font-size: 2rem;
+}
+
+/* Styles for the main game container where the action happens. */
+#game-container {
+    /* Sets the width to fill the available space. */
+    width: 100%;
+    /* Sets the height to 80% of the viewport's height. */
+    height: 80vh;
+    /* Sets the scrolling road background image. */
+    background-image: url('../images/perfect_road.jpg');
+    /* Makes the background image repeat vertically to create a scrolling effect. */
+    background-repeat: repeat-y;
+    /* Centers the background image. */
+    background-position: center;
+    /* Scales the image to cover the entire container. */
+    background-size: cover;
+    /* Hides any parts of child elements (like stones) that go outside the container's boundaries. */
+    overflow: hidden;
+    /* This is crucial. It establishes a positioning context for its children that have 'position: absolute'. */
+    position: relative;
+    /* Adds some margin to the top. */
+    margin-top: 5%;
+}
+
+/* Styles for the player's car. */
+#car {
+    /* Positions the car relative to the 'game-container'. */
+    position: absolute;
+    /* Sets the car's height as a percentage of the container's height. */
+    height: 20%;
+    /* Sets the car's width. */
+    width: 7.67%;
+    /* Pins the car to the bottom of the container. */
+    bottom: 2%;
+    /* Centers the car horizontally. */
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* Styles applied to all stone obstacles. */
+.stone {
+    /* Positions the stones relative to the 'game-container'. */
+    position: absolute;
+    /* Centers the stones horizontally based on their 'left' property. */
+    transform: translateX(-50%);
+    /* Places the stones on a layer above the background but below the buttons. */
+    z-index: 1;
+}
